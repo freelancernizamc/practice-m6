@@ -88,7 +88,9 @@ const showAllCountries = (countries) =>{
     <h2 class="card-title text-3xl">${country.name.common}!</h2>
     <p>Population: ${country.population}}</p>
     <div class="card-actions">
-      <button onClick="showDetails('${country.cca2}')" class="btn btn-primary">See Details</button>
+    <label for="my-modal" class="btn" onclick="displayCountryDetails('${country.cca3}')">Show Details</label>
+    
+      
     </div>
   </div>
 </div>
@@ -97,11 +99,23 @@ const showAllCountries = (countries) =>{
     });
 
 };
-const showDetails =(id) => {
-    const URL = `https://restcountries.com/v3.1/alpha/${id}`;
-    fetch(URL)
-    .then((res) => res.json())
-    .then((data) => console.log(data));
+
+const displayCountryDetails = code =>{
+    // https://restcountries.com/v2/alpha/{code}
+    const url = `https://restcountries.com/v3.1/alpha/${code}`
+    //  console.log(url)
+     fetch(url)
+     .then(res => res.json())
+     .then(data => showCountryDetail(data[0]));
+}
+
+const showCountryDetail = country =>{
+    console.log(country)
+    const detailsContainer = document.getElementById('country-details')
+    detailsContainer.innerHTML = `
+    <h3>Name: ${country.name.common} <h3>
+    <img src="${country.flags.png}">
+    `;
 };
 
 loadCountries();
